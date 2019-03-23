@@ -12,13 +12,16 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <script src="//http://blog-ans.test:6379/socket.io/socket.io.js"></script>
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
+        
+        
     </script>
+    <script src="{{ asset('js/noti.js') }}"></script>
 </head>
 <body>
     <div id="app">
@@ -83,5 +86,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+   
+    
+
 </body>
 </html>

@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Webdev forum</title>
-    <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">
+    {{--  <link rel="stylesheet" href="https://bootswatch.com/paper/bootstrap.min.css">  --}}
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.min.css">
@@ -19,6 +19,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+ 
 </head>
 <body >
 <div id="app">
@@ -57,7 +58,10 @@
         {{--crossorigin="anonymous"></script>--}}
 {{--<!-- Latest compiled and minified JS -->--}}
 {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
+{{--  <script src="//http://blog-ans.test:6379/socket.io/socket.io.js"></script>  --}}
+<script src="//{{ Request::getHost() }}:6370/socket.io/socket.io.js"></script>
 <script src="{{asset('js/main.js')}}"></script>
+{{--  <script src="{{asset('js/notis.js')}}"></script>  --}}
 <script src="{{asset('js/app.js')}}"></script>
 
 @yield('js')

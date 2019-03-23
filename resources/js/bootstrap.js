@@ -30,6 +30,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * a simple convenience so we don't have to attach every token manually.
  */
 
+
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
@@ -54,3 +55,30 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+// console.log('ccc');
+
+// console.log('private-App.User.' + userId);
+
+import Echo from "laravel-echo";
+
+
+
+
+console.log('private-App.User.1');
+window.io = require('socket.io-client');
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6379',
+    path: "/ws/socket.io",
+    secure: false
+    // transports: ['websocket', 'polling', 'flashsocket']
+});
+    
+
+window.Echo.private('private-App.User.1')
+.notification((notification) => {
+    console.log(notification);
+});
+console.log('private-App.User.2');

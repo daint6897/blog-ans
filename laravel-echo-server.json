@@ -1,0 +1,30 @@
+{
+	"authHost": "http://blog-ans.test/",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [
+		{
+			"appId": "33285b6e6aed9fdb",
+			"key": "93f87a9032235a14899f47586072ae2b"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {},
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": null,
+	"port": "6379",
+	"protocol": "http",
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": "",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"subscribers": {
+		"http": true,
+		"redis": true
+	}
+}
