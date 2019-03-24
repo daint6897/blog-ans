@@ -45,6 +45,7 @@ class RepliedToThread extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
+    //gửi thông báo qua database
     public function toDatabase($notifiable)
     {
         return[
@@ -53,7 +54,7 @@ class RepliedToThread extends Notification
         ];
     }
 
-
+    //gửi thông báo qua broadcasr
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
