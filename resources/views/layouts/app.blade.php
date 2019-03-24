@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="//http://blog-ans.test:6379/socket.io/socket.io.js"></script>
+   <!--  <script src="//http://blog-ans.test:6379/socket.io/socket.io.js"></script> -->
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </nav>
-
+        <input type="hidden" id="userId" value="{{{ Auth::user()->id }}}}">
         @yield('content')
     </div>
 

@@ -31,8 +31,8 @@
                     <li><a href="{{ route('register') }}">Register</a></li>
                 @else
                     {{--notification--}}
-                <notification :userid="{{auth()->id()}}" :unreads="{{auth()->user()->unreadNotifications}}"></notification>
-
+                <!-- <notification :userid="{{auth()->id()}}" :unreads="{{auth()->user()->unreadNotifications}}"></notification> -->
+                <input type="hidden" id="userId" value="{{{ Auth::user()->id }}}">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -62,3 +62,4 @@
         </div>
     </div>
 </nav>
+<div class="notifications"></div>

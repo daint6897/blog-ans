@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     $threads=App\Thread::paginate(15);
     return view('welcome',compact('threads'));
@@ -39,4 +38,11 @@ Route::get('/user/profile/{user}', 'UserProfileController@index')->name('user_pr
 
 Route::get('/markAsRead',function(){
     auth()->user()->unreadNotifications->markAsRead();
+});
+
+Route::get("/<path to resource>", function () {
+    $r = Response::make("hello");
+    $r->header("Access-Control-Allow-Origin", "<*|client request domain>")
+    ->header("Access-Control-Allow-Credentials", "true")
+    ->header("Access-Control-Request-Method", "GET");
 });

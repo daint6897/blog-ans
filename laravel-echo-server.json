@@ -1,12 +1,7 @@
 {
-	"authHost": "http://blog-ans.test/",
+	"authHost": "http://localhost:8000",
 	"authEndpoint": "/broadcasting/auth",
-	"clients": [
-		{
-			"appId": "33285b6e6aed9fdb",
-			"key": "93f87a9032235a14899f47586072ae2b"
-		}
-	],
+	"clients": [],
 	"database": "redis",
 	"databaseConfig": {
 		"redis": {},
@@ -16,7 +11,7 @@
 	},
 	"devMode": true,
 	"host": null,
-	"port": "6379",
+	"port": "7000",
 	"protocol": "http",
 	"socketio": {},
 	"sslCertPath": "",
@@ -26,5 +21,11 @@
 	"subscribers": {
 		"http": true,
 		"redis": true
+	},
+	"apiOriginAllow": {
+		"allowCors": false,
+		"allowOrigin": "",
+		"allowMethods": "",
+		"allowHeaders": ""
 	}
 }

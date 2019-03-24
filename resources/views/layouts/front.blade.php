@@ -61,8 +61,10 @@
 {{--  <script src="//http://blog-ans.test:6379/socket.io/socket.io.js"></script>  --}}
 <script src="//{{ Request::getHost() }}:6370/socket.io/socket.io.js"></script>
 <script src="{{asset('js/main.js')}}"></script>
-{{--  <script src="{{asset('js/notis.js')}}"></script>  --}}
+
 <script src="{{asset('js/app.js')}}"></script>
+
+<script src="{{asset('js/noti123.js')}}"></script>
 
 @yield('js')
 </body>

@@ -8976,7 +8976,7 @@ function load() {
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"","NODE_ENV":"development"}).DEBUG;
+    r = Object({"MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}).DEBUG;
   }
 
   return r;
@@ -59006,19 +59006,24 @@ if (token) {
 
 
 
-console.log('private-App.User.1');
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
-  host: window.location.hostname + ':6379',
-  path: "/ws/socket.io",
-  secure: false // transports: ['websocket', 'polling', 'flashsocket']
+  host: window.location.hostname + ':7000',
+  transports: ['websocket', 'polling', 'flashsocket'] // Fix CORS error!
 
-});
-window.Echo.private('private-App.User.1').notification(function (notification) {
+}); //
+
+var userId = $('#userId').val();
+window.Echo.private('App.User.' + userId).notification(function (notification) {
+  var content_noti = '<div class="alert alert-success" role="alert">' + notification.user.name + ' comment thread: ' + ' <a href="' + '/thread/' + notification.thread.id + '" class="alert-link">' + notification.thread.subject + '</a>' + '. Give it a click if you like.' + '</div>';
+  $(".notifications").append(content_noti);
   console.log(notification);
+  console.log(notification.user.name);
+  $(".alert-success").fadeTo(8000, 500).slideUp(500, function () {
+    $(".alert-success").slideUp(500);
+  });
 });
-console.log('private-App.User.2');
 
 /***/ }),
 
@@ -59091,26 +59096,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***********************************!*\
+  !*** multi ./resources/js/app.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\BLOG_ANS\laragon\www\blog-ans\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\BLOG_ANS\laragon\www\blog-ans\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /var/www/html/blog-ans/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ }),
