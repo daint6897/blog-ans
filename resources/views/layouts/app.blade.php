@@ -80,10 +80,11 @@
                 </div>
             </div>
         </nav>
-        <input type="hidden" id="userId" value="{{{ Auth::user()->id }}}}">
+        <input type="hidden" id="userId" value="{{{ Auth::id() }}}">
         @yield('content')
     </div>
 
+    
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
    

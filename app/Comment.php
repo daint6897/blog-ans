@@ -8,7 +8,7 @@ class Comment extends Model
 {
     use CommentableTrait, LikableTrait;
 
-    protected $fillable=['body','user_id'];
+    protected $fillable=['body','user_id','commentable_id'];
     /**
      * Get all of the owning commentable models.
      */

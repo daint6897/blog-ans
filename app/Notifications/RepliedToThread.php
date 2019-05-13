@@ -14,16 +14,17 @@ class RepliedToThread extends Notification
     use Queueable;
 
 
-    public $thread;
+    public $thread,$contentCmt;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($thread)
+    public function __construct($thread,$contentCmt)
     {
         $this->thread=$thread;
+        $this->contentCmt=$contentCmt;
     }
 
     /**
@@ -58,6 +59,7 @@ class RepliedToThread extends Notification
     {
         return new BroadcastMessage([
             'thread'=>$this->thread,
+            'contentCmt'=>$this->contentCmt,
             'user'=>auth()->user()
         ]);
     }

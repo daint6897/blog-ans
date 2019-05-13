@@ -7,7 +7,7 @@ use App\Thread;
 use App\ThreadFilters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-
+use App\Comment;
 class ThreadController extends Controller
 {
     function __construct()
@@ -77,6 +77,9 @@ class ThreadController extends Controller
         return view('thread.single', compact('thread'));
     }
 
+    public function showCmt($cmt){
+        return Comment::where('commentable_id','=',$cmt)->get();
+    }
     /**
      * Show the form for editing the specified resource.
      *
