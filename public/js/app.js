@@ -75341,25 +75341,28 @@ if (token) {
 // console.log('private-App.User.' + userId);
 
 
+ // window.io = require('socket.io-client');
 
-window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'socket.io',
   host: window.location.hostname + ':7000',
   transports: ['websocket', 'polling', 'flashsocket'] // Fix CORS error!
 
 }); //
-
-var userId = $('#userId').val();
-window.Echo.private('App.User.' + userId).notification(function (notification) {
-  var content_noti = '<div class="alert alert-success" role="alert">' + notification.user.name + ' comment thread: ' + ' <a href="' + '/thread/' + notification.thread.id + '" class="alert-link">' + notification.thread.subject + '</a>' + '. Give it a click if you like.' + '</div>';
-  $(".notifications").append(content_noti);
-  console.log(notification);
-  console.log(notification.user.name);
-  $(".alert-success").fadeTo(8000, 500).slideUp(500, function () {
-    $(".alert-success").slideUp(500);
-  });
-});
+// var userId = $('#userId').val();
+// window.Echo.private('App.User.'+userId)
+// .notification((notification) => {
+//    var content_noti = '<div class="alert alert-success" role="alert">'
+//   +notification.user.name+' comment thread: '+' <a href="'+'/thread/'+notification.thread.id+'" class="alert-link">'+notification.thread.subject+'</a>'
+//   +'. Give it a click if you like.'
+// +'</div>';
+//     $( ".notifications" ).append(content_noti);
+//         console.log(notification);
+//         console.log(notification.user.name);
+//     $(".alert-success").fadeTo(8000, 500).slideUp(500, function(){
+//         $(".alert-success").slideUp(500);
+//     });
+// });
 
 /***/ }),
 
@@ -75445,6 +75448,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -75475,6 +75479,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
  // import { ScaleLoader } from 'react-spinners';
 
 var socketUrl = "http://localhost:8002";
@@ -75497,7 +75502,8 @@ function (_Component) {
       socket: null,
       idUser: null,
       next_page: null,
-      info: null
+      info: null,
+      cmtSocket: null
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this)); // this.getIdUser();
@@ -75509,6 +75515,20 @@ function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.getMess(); // console.log(this.state.idUser);
+      // this.initSocket();
+      // this.getCmtSocket();
+    }
+  }, {
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.getCmtSocket();
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      this.setState({
+        mess: event.target.value
+      });
     }
   }, {
     key: "handleSubmit",
@@ -75520,21 +75540,18 @@ function (_Component) {
       var url = window.location.pathname;
       var temp = url.split("/");
       console.log(temp[2]);
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/messages', {
-        message: this.state.mess,
-        user_id_receive: temp[2]
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/comment/create/' + temp[2], {
+        body: this.state.mess
       }).then(function (response) {
         console.log(response.status);
       }).catch(function (error) {
-        _this2.errors = [];
-
-        if (error.response.data.errors.name) {
-          console.log(error.response.data.errors.name);
-        }
-
-        if (error.response.data.errors.price) {
-          _this2.errors.push(error.response.data.errors.price);
-        }
+        _this2.errors = []; // if (error.response.data.errors.name) {
+        //     console.log('err');
+        //     // console.log(error.response.data.errors.name)
+        // }
+        // if (error.response.data.errors.price) {
+        //     // this.errors.push(error.response.data.errors.price)
+        // }
       });
       this.setState({
         mess: ""
@@ -75581,35 +75598,49 @@ function (_Component) {
     }
   }, {
     key: "initSocket",
-    value: function initSocket(channel) {
-      var _this4 = this;
-
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()(socketUrl); // const channel = 'private-chat.'+this.state.idUser;
-
-      console.log(channel);
-      socket.on(channel, function (response) {
-        _this4.newMessage(response.message);
-      });
-      socket.on("ahihi", function (response) {
-        console.log(response);
-      });
-      socket.emit("ahihi", 'cacac');
+    value: function initSocket() {// window.io = require('socket.io-client');
+      // window.Echo = new Echo({
+      //     broadcaster: 'socket.io',
+      //     host: window.location.hostname + ':7000',
+      //     transports: ['websocket', 'polling', 'flashsocket'] // Fix CORS error!
+      // });
     }
   }, {
-    key: "newMessage",
-    value: function newMessage(m) {
+    key: "newCmt",
+    value: function newCmt(cmt) {
       // const messages = this.state.allCmt;
       // messages.push(m);
-      this.state.allCmt.push(m);
+      this.state.allCmt.push(cmt);
       this.setState(this.state);
       this.state;
-      console.log(m);
+      console.log(cmt);
     }
   }, {
-    key: "handleChange",
-    value: function handleChange(event) {
-      this.setState({
-        mess: event.target.value
+    key: "getCmtSocket",
+    value: function getCmtSocket() {
+      var _this4 = this;
+
+      window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+      var url = window.location.pathname;
+      var temp = url.split("/");
+      var threadId = temp['2']; // alert(threadId);
+
+      console.log(temp[2]); // var userId = 2;
+
+      window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_5__["default"]({
+        broadcaster: 'socket.io',
+        host: window.location.hostname + ':7000',
+        transports: ['websocket', 'polling', 'flashsocket'] // Fix CORS error!
+
+      });
+      window.Echo.channel('thread.' + threadId).listen('MessageSend', function (cmt) {
+        var cmtSocket = {
+          'body': cmt.contentCmt.cmt
+        };
+
+        _this4.newCmt(cmtSocket);
+
+        console.log(_this4.state.allCmt);
       });
     }
   }, {
@@ -75635,29 +75666,39 @@ function (_Component) {
       }
     }
   }, {
-    key: "contentCmtTemp",
-    value: function contentCmtTemp(mess) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "alert alert-secondary"
-      }, mess));
-    }
-  }, {
-    key: "sendnewMessage",
-    value: function sendnewMessage(m) {
-      var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_4___default()(socketUrl);
-      socket.emit("newMess", {
-        dataMess: m
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
+      var _this5 = this;
+
       // {this.addNewMess()}
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
-      }, this.contentCmt(this.state.allCmt)));
+      }, this.contentCmt(this.state.allCmt)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(event) {
+          return _this5.handleSubmit(event);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("legend", null, "Create comment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onChange: function onChange(event) {
+          return _this5.handleChange(event);
+        },
+        type: "text",
+        className: "form-control",
+        name: "body",
+        id: true,
+        placeholder: "Input..."
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        value: "Send",
+        type: "submit"
+      }))))) // form
+      ;
     }
   }]);
 

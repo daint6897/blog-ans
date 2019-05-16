@@ -7,6 +7,7 @@ use App\Notifications\RepliedToThread;
 use App\Thread;
 use Illuminate\Http\Request;
 
+use App\Events\MessageSend;
 class CommentController extends Controller
 {
 
@@ -16,20 +17,16 @@ class CommentController extends Controller
             'body'=>'required'
         ]);
 
-//        $comment=new Comment();
-//        $comment->body=$request->body;
-//        $comment->user_id=auth()->user()->id;
-//
-//        $thread->comments()->save($comment);
 
         $thread->addComment($request->body);
-        // dd($thread);
         $contentCmt = [
-            'cmt' => 'ahihihihihihi'
+            'cmt' => $request->body
         ];
         $thread->user->notify(new RepliedToThread($thread,$contentCmt));
 
-        return back()->withMessage('comment created');
+        //pub cmt to thread_id
+        broadcast(new MessageSend($thread->id,$contentCmt));
+        return response()->json(['status'=> '200']);
     }
 
     public function addReplyComment(Request $request, Comment $comment)

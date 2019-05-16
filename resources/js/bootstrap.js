@@ -62,7 +62,7 @@ if (token) {
 
 import Echo from "laravel-echo";
 
-window.io = require('socket.io-client');
+// window.io = require('socket.io-client');
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
@@ -71,21 +71,21 @@ window.Echo = new Echo({
 });
 
 //
-var userId = $('#userId').val();
+// var userId = $('#userId').val();
 
-window.Echo.private('App.User.'+userId)
-.notification((notification) => {
+// window.Echo.private('App.User.'+userId)
+// .notification((notification) => {
 
-   var content_noti = '<div class="alert alert-success" role="alert">'
-  +notification.user.name+' comment thread: '+' <a href="'+'/thread/'+notification.thread.id+'" class="alert-link">'+notification.thread.subject+'</a>'
-  +'. Give it a click if you like.'
-+'</div>';
+//    var content_noti = '<div class="alert alert-success" role="alert">'
+//   +notification.user.name+' comment thread: '+' <a href="'+'/thread/'+notification.thread.id+'" class="alert-link">'+notification.thread.subject+'</a>'
+//   +'. Give it a click if you like.'
+// +'</div>';
 
-    $( ".notifications" ).append(content_noti);
-        console.log(notification);
-        console.log(notification.user.name);
-    $(".alert-success").fadeTo(8000, 500).slideUp(500, function(){
-        $(".alert-success").slideUp(500);
-    });
-});
+//     $( ".notifications" ).append(content_noti);
+//         console.log(notification);
+//         console.log(notification.user.name);
+//     $(".alert-success").fadeTo(8000, 500).slideUp(500, function(){
+//         $(".alert-success").slideUp(500);
+//     });
+// });
 
